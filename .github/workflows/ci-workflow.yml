@@ -1,0 +1,78 @@
+name: CI for building UV
+on: [push, pull_request]
+
+jobs:
+  darwin-x86_64:
+    name: darwin-x86_64
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: sh darwin-x86_64.sh
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-darwin-x86_64
+          path: libuv-v1.32.0-darwin-x86_64.tar.gz
+  linux-x86_64:
+    name: linux-x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: sh linux-x86_64.sh
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-linux-x86_64
+          path: libuv-v1.32.0-linux-x86_64.tar.gz
+  linux-i386:
+    name: linux-i386
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: |
+          docker run --rm --privileged multiarch/qemu-user-static:register --reset
+          docker build --rm -t travis_ci --build-arg ARCH=i386 -f Dockerfile-Debian .
+          docker run --name travis_ci_job -t travis_ci bash -c "sh linux-i386.sh"
+          docker cp travis_ci_job:/build/libuv-v1.32.0-linux-i386.tar.gz libuv-v1.32.0-linux-i386.tar.gz
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-linux-i386
+          path: libuv-v1.32.0-linux-i386.tar.gz
+  linux-aarch64:
+    name: linux-aarch64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: |
+          docker run --rm --privileged multiarch/qemu-user-static:register --reset
+          docker build --rm -t travis_ci --build-arg ARCH=arm64 -f Dockerfile-Debian .
+          docker ps -a
+          docker rm travis_ci_job
+          docker run --name travis_ci_job -t travis_ci bash -c "sh linux-aarch64.sh"
+          docker cp travis_ci_job:/build/libuv-v1.32.0-linux-aarch64.tar.gz libuv-v1.32.0-linux-aarch64.tar.gz
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-linux-aarch64
+          path: libuv-v1.32.0-linux-aarch64.tar.gz
+  linux-armv7l:
+    name: linux-armv7l
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: |
+          docker run --rm --privileged multiarch/qemu-user-static:register --reset
+          docker build --rm -t travis_ci --build-arg ARCH=armhf -f Dockerfile-Debian .
+          docker run --name travis_ci_job -t travis_ci bash -c "sh linux-armv7l.sh"
+          docker cp travis_ci_job:/build/libuv-v1.32.0-linux-armv7l.tar.gz libuv-v1.32.0-linux-armv7l.tar.gz
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-linux-armv7l
+          path: libuv-v1.32.0-linux-armv7l.tar.gz
