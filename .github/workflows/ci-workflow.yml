@@ -52,8 +52,6 @@ jobs:
       - run: |
           docker run --rm --privileged multiarch/qemu-user-static:register --reset
           docker build --rm -t travis_ci --build-arg ARCH=arm64 -f Dockerfile-Debian .
-          docker ps -a
-          docker rm travis_ci_job
           docker run --name travis_ci_job -t travis_ci bash -c "sh linux-aarch64.sh"
           docker cp travis_ci_job:/build/libuv-v1.32.0-linux-aarch64.tar.gz libuv-v1.32.0-linux-aarch64.tar.gz
       - uses: actions/upload-artifact@master
