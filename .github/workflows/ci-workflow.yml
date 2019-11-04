@@ -74,3 +74,15 @@ jobs:
         with:
           name: libuv-v1.32.0-linux-armv7l
           path: libuv-v1.32.0-linux-armv7l.tar.gz
+  windows-x86_64:
+    name: windows-x86_64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: windows-x86_64.bat
+      - uses: actions/upload-artifact@master
+        with:
+          name: libuv-v1.32.0-windows-x86_64
+          path: libuv-v1.32.0-windows-x86_64.tar.gz
