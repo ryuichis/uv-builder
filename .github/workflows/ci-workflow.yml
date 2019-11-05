@@ -82,7 +82,8 @@ jobs:
         with:
           fetch-depth: 1
       - run: windows-x86_64.bat
+        shell: cmd
       - uses: actions/upload-artifact@master
         with:
-          name: libuv-v1.32.0-windows-x86_64
-          path: libuv-v1.32.0-windows-x86_64.tar.gz
+          name: libuv-v1.29.1-windows-x86_64
+          path: libuv-v1.29.1-windows-x86_64.tar.gz

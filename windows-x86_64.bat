@@ -1,10 +1,11 @@
-curl -L https://dist.libuv.org/dist/v1.32.0/libuv-v1.32.0.tar.gz -o libuv-v1.32.0.tar.gz
-tar xf libuv-v1.32.0.tar.gz
-mv libuv-v1.32.0 libuv-v1.32.0.src
-mkdir libuv-v1.32.0.build
-cd libuv-v1.32.0.build/
-cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=../libuv-v1.32.0-windows-x86_64 -DCMAKE_BUILD_TYPE=Release ../libuv-v1.32.0.src
-mingw32-make -j2
-mingw32-make install
+curl -L https://github.com/JuliaPackaging/Yggdrasil/releases/download/LibUV-v2+1.29.1-julia+0/LibUV.v2.0.0+1.29.1-julia.x86_64-w64-mingw32.tar.gz -o libuv.tar.gz
+tar xf libuv.tar.gz
+mkdir libuv-v1.29.1-windows-x86_64
+cd libuv-v1.29.1-windows-x86_64
+mkdir lib
+cd lib
+move ..\..\bin\libuv-2.dll libuv.dll
 cd ..
-tar czf libuv-v1.32.0-windows-x86_64.tar.gz libuv-v1.32.0-windows-x86_64
+move ..\include .
+cd ..
+tar czf libuv-v1.29.1-windows-x86_64.tar.gz libuv-v1.29.1-windows-x86_64
