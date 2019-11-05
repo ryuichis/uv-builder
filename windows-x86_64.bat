@@ -10,7 +10,7 @@ mkdir libuv-v1.32.0-windows-x86_64
 cd libuv-v1.32.0-windows-x86_64
 mkdir lib
 cd lib
-move ..\..\libuv-v1.32.0.build\Release\uv.dll libuv.dll
+move ..\..\libuv-v1.32.0.build\Release\uv.dll uv.dll
 cd ..
 move ..\libuv-v1.32.0.src\include .
 cd ..
